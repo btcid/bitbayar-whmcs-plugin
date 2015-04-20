@@ -9,7 +9,7 @@ Extract these files into the WHMCS directory on your webserver (parent directory
 
 # Configuration
 1. Take a moment to ensure that you have set your store's domain and the WHMCS System URL under **whmcs/admin > Setup > General Settings**.
-2. Get **API Token** in your BitPay merchant account:
+2. Get **API Token** in your BitBayar merchant account:
   * Log into [https://bitbayar.com](https://bitbayar.com) with your account username/password.
   * Go to menu [Setting & API](https://bitbayar.com/setting)
   * On the first box column, you will find **API TOKEN**
