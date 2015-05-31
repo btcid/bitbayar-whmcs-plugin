@@ -35,6 +35,8 @@ include '../../../includes/functions.php';
 include '../../../includes/gatewayfunctions.php';
 include '../../../includes/invoicefunctions.php';
 
+require_once '../bitbayar/bb_lib.php';
+
 $gatewaymodule = 'bitbayar';
 $GATEWAY       = getGatewayVariables($gatewaymodule);
 

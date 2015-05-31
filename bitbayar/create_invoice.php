@@ -35,9 +35,10 @@ include '../../../includes/functions.php';
 include '../../../includes/gatewayfunctions.php';
 include '../../../includes/invoicefunctions.php';
 
+require 'bb_lib.php';
+
 $gatewaymodule = 'bitbayar';
 $GATEWAY = getGatewayVariables($gatewaymodule);
-
 
 //~ get invoice
 $invoiceId = (int) $_POST['invoice_id'];
