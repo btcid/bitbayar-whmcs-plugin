@@ -35,7 +35,7 @@ include '../../../includes/functions.php';
 include '../../../includes/gatewayfunctions.php';
 include '../../../includes/invoicefunctions.php';
 
-require 'bb_lib.php';
+//require 'bb_lib.php';
 
 $gatewaymodule = 'bitbayar';
 $GATEWAY = getGatewayVariables($gatewaymodule);
@@ -47,7 +47,7 @@ $result    = mysql_query("SELECT tblinvoices.total, tblinvoices.status, tblcurre
 $data_respon      = mysql_fetch_assoc($result);
 
 if (!$data_respon) {
-    bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: No invoice found for invoice id #' . $invoiceId);
+    //bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: No invoice found for invoice id #' . $invoiceId);
     die('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Invalid invoice id #' . $invoiceId);
 }
 
@@ -56,7 +56,7 @@ $currency = $data_respon['code'];
 $status   = $data_respon['status'];
 
 if ($status != 'Unpaid') {
-    bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Invoice status must be Unpaid.  Status: ' . $status);
+    //bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Invoice status must be Unpaid.  Status: ' . $status);
     die('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Bad invoice status of ' . $status);
 }
 
@@ -89,6 +89,6 @@ if($response->success){
 	exit;
 }
 else{
-	bbLog('[ERROR] In modules/gateways/bitbayar/create_invoice.php: Invoice error: ' . var_export($response['error'], true));
+	//bbLog('[ERROR] In modules/gateways/bitbayar/create_invoice.php: Invoice error: ' . var_export($response['error'], true));
     die('[ERROR] In modules/gateways/bitbayar/create_invoice.php: Invoice error: ' . var_export($response['error']['error_message'], true));
 }
