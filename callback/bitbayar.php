@@ -35,14 +35,11 @@ include '../../../includes/functions.php';
 include '../../../includes/gatewayfunctions.php';
 include '../../../includes/invoicefunctions.php';
 
-//require_once '../bitbayar/bb_lib.php';
-
 $gatewaymodule = 'bitbayar';
 $GATEWAY       = getGatewayVariables($gatewaymodule);
 
 if (!$GATEWAY['type']) {
-	logTransaction($GATEWAY['name'], $_POST, 'Not activated');
-	//bbLog('[ERROR] In modules/gateways/callback/bitbayar.php: BitBayar module not activated');
+	logTransaction($GATEWAY['name'], $_POST, 'Modul BitBayar tidak aktif');
 	die('[ERROR] In modules/gateways/callback/bitbayar.php: BitBayar module not activated.');
 }
 

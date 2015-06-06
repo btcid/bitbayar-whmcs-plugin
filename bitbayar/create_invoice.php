@@ -35,10 +35,9 @@ include '../../../includes/functions.php';
 include '../../../includes/gatewayfunctions.php';
 include '../../../includes/invoicefunctions.php';
 
-//require 'bb_lib.php';
-
 $gatewaymodule = 'bitbayar';
 $GATEWAY = getGatewayVariables($gatewaymodule);
+
 
 //~ get invoice
 $invoiceId = (int) $_POST['invoice_id'];
@@ -47,7 +46,6 @@ $result    = mysql_query("SELECT tblinvoices.total, tblinvoices.status, tblcurre
 $data_respon      = mysql_fetch_assoc($result);
 
 if (!$data_respon) {
-    //bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: No invoice found for invoice id #' . $invoiceId);
     die('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Invalid invoice id #' . $invoiceId);
 }
 
@@ -56,7 +54,6 @@ $currency = $data_respon['code'];
 $status   = $data_respon['status'];
 
 if ($status != 'Unpaid') {
-    //bbLog('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Invoice status must be Unpaid.  Status: ' . $status);
     die('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Bad invoice status of ' . $status);
 }
 
@@ -65,7 +62,7 @@ if ($status != 'Unpaid') {
 $data = array(
     'token'			=>$GATEWAY['apiToken'],
     'invoice_id'	=>$invoiceId,
-    'rupiah'		=>$data_respon['total'],
+    'rupiah'		=>$_POST['rupiah'],
     'memo'			=>$_POST['memo'],
     'callback_url'	=>$_POST['callback_url'],
     'url_success'	=>$_POST['url_success'],
@@ -89,6 +86,6 @@ if($response->success){
 	exit;
 }
 else{
-	//bbLog('[ERROR] In modules/gateways/bitbayar/create_invoice.php: Invoice error: ' . var_export($response['error'], true));
-    die('[ERROR] In modules/gateways/bitbayar/create_invoice.php: Invoice error: ' . var_export($response['error']['error_message'], true));
+	logTransaction($GATEWAY['name'], $response->error_message, 'BitBayar Error!');
+	exit('Bitbayar API error '.$response->error_message);
 }

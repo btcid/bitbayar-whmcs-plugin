@@ -14,9 +14,18 @@ Extract these files into the WHMCS directory on your webserver (parent directory
   * Go to menu [Setting & API](https://bitbayar.com/setting)
   * On the first box column, you will find **API TOKEN**
   * Select and copy the entire string for your API Token. It will look something like this: GD1FA2CC2A3357FDF45B84744FFF7102.
-3. In the admin control panel, go to **Setup > Payment Gateways**, select **Bitcoin (BitBayar)** in the list of modules and click Activate.
+3. In the admin control panel, go to **Setup > Payments > Payment Gateways**, select **Bitcoin (BitBayar)** in the list of modules and click Activate.
 4. Paste the **API Token** string that you copied from step 2.
 5. Click **Save Changes**.
+
+6. Add IDR currency under **Setup > Payments > Currencies** :
+  * Currency Code : **IDR**
+  * Prefix : **Rp**
+  * Suffix : **IDR**
+  * Format : **1.234,56**
+  * Base Conv. rate : Leave Blank!
+  * Click **Add Currency**
+7. Don't forget to update IDR rate, click **Update Exchange Rates**
 
 You're done!
 
