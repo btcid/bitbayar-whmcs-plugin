@@ -99,6 +99,7 @@ function bitbayar_link($params)
 
 	$post = array(
 		'currency'		=>$currency,
+		'amount'		=>$amount,
 		'token'			=>$api_token,
 		'invoice_id'	=>$invoiceid,
 		'rupiah'		=>$final_amount,
