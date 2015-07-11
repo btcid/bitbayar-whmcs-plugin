@@ -83,16 +83,19 @@ function bitbayar_link($params)
 	//~ System Variables    
 	$systemurl = $params['systemurl'];
 	$companyname = $params['companyname'];
-	$currency = $params['currency'];
 
 	$results = localAPI('getcurrencies',$values,'admin');
 	foreach($results['currencies']['currency'] as $newCurrency){
 		$dataCurrency[$newCurrency['code']]=$newCurrency['rate'];
 	}
 
-	if($dataCurrency['IDR']){
-		$final_amount=round($amount*$dataCurrency['IDR']);
-	}else{
+	if($currency=='USD'){
+		$amount=round($amount*$dataCurrency['IDR']);
+	}
+	if($currency=='IDR'){
+		$amount=round($amount*1);
+	}
+	else{
 		$info_currency='<span style="color:red;">IDR currency require for bitbayar payment</span>';
 	}
 
@@ -102,7 +105,7 @@ function bitbayar_link($params)
 		'amount'		=>$amount,
 		'token'			=>$api_token,
 		'invoice_id'	=>$invoiceid,
-		'rupiah'		=>$final_amount,
+		'rupiah'		=>$amount,
 		'memo'			=>$description,
 		'callback_url'	=>$callback_url,
 		'url_success'	=>$redirect_url,
