@@ -57,6 +57,7 @@ if ($status != 'Unpaid') {
     die('[ERROR] In modules/gateways/bitbayar/createinvoice.php: Bad invoice status of ' . $status);
 }
 
+logTransaction($GATEWAY['name'], 'order', print_r($_POST['currency'].$_POST['amount'], true));
 
 //~ Create invoice
 $data = array(
