@@ -51,25 +51,20 @@ $invoiceid = checkCbInvoiceID($invoiceid, $GATEWAY['name']);
 $transid = $_POST['id'];        
 checkCbTransID($transid);
 
-//~ Get invoice
-$result    = mysql_query("SELECT id, total from tblinvoices where id=".mysql_real_escape_string($invoiceid));
-$data_respon      = mysql_fetch_assoc($result);
+//~ Get invoice amount
+$get_invoice = mysql_query("SELECT id, total from tblinvoices where id=".mysql_real_escape_string($invoiceid));
+$data_invoice = mysql_fetch_assoc($get_invoice);
 
 //~ Check IDR value
-if($_POST['rp']!=(int) $data_respon['total']){
-	logTransaction($GATEWAY['name'], $_POST, 'Jumlah Rupiah yang dikirim tidak benar: '.$_POST['rp'].'!='.(int)$data_respon['total'] );
-	return;
-}
-
-//~ Check double spend
-if($_POST['auto_sell']!=1){			
-	logTransaction($GATEWAY['name'], $_POST, 'Double Transaksi.');
+if($_POST['rp']!=(int) $data_invoice['total']){
+	logTransaction($GATEWAY['name'], $_POST, 'Jumlah Rupiah yang dikirim tidak benar: '.$_POST['rp'].'!='.(int)$data_invoice['total'] );
+	echo "Jumlah Rupiah tidak sesuai invoice <br/>";
 	return;
 }
 
 //~ Double check to https://bitbayar.com/api/check_invoice
-$data['token']	= $GATEWAY['apiToken'];
-$data['id']      = $transid;
+$data['token'] = $GATEWAY['apiToken'];
+$data['id'] = $transid;
 
 $url = 'https://bitbayar.com/api/check_invoice';
 $ch = curl_init($url);
@@ -82,9 +77,10 @@ $return = curl_exec($ch);
 curl_close($ch);
 $response = json_decode($return);
 
-//~ Check if status has paid and ends processing if it does
+//~ Check if status hasn't paid
 if($response->success!=1 && $response->status!='paid'){
 	logTransaction($GATEWAY['name'], $_POST, 'Pembayaran Belum Lengkap.');
+	echo "Invoice belum dibayar <br/>";
 	return;
 }
 
@@ -94,6 +90,9 @@ $fee = 0;
 //~ Left blank, this will auto-fill as the full balance
 $amount = '';
 
-//~ Add transaction payment
+//~ Status paid, Add transaction payment
 addInvoicePayment($invoiceid, $transid, $amount, $fee, $gatewaymodule);
 logTransaction($GATEWAY['name'], $_POST, 'Pembayaran Sukses.');
+
+// Ends processing
+echo "Ok <br/>";
